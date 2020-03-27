@@ -35,6 +35,13 @@ router.post('/edit', async (req, res) => {
     res.redirect('/courses');
 });
 
+router.post('/add', async (req, res) => {
+    const course = await Course.getById(req.body.id);
+
+    await Card.add(course);
+    res.redirect('/card');
+});
+
 
 
 module.exports = router;
