@@ -15,11 +15,9 @@ class Card {
         const candidate = card.courses[idx];
 
         if (candidate) {
-            //Курс уже есть
             candidate.count++;
             card.courses[idx] = candidate;
         } else {
-            //Нужно добавить
             course.count = 1;
             card.courses.push(course);
         }
