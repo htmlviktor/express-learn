@@ -27,6 +27,7 @@ app.use('/courses', coursesRoutes);
 app.use('/card', cardRoutes);
 
 
+const url = `mongodb+srv://viktorkan:DyXco7h9UD1iFFee@cluster0-8lrxq.mongodb.net/test?retryWrites=true&w=majority`;
 
 const PORT = process.env.PORT || 3000;
 
