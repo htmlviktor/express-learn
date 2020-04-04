@@ -30,14 +30,14 @@ app.use('/card', cardRoutes);
 const PORT = process.env.PORT || 3000;
 
 
-const start = async () => {
-    try {
-        const url = `mongodb+srv://viktorkan:DyXco7h9UD1iFFee@cluster0-8lrxq.mongodb.net/test?retryWrites=true&w=majority`;
-        await mongoose.connect(url, {useNewUrlParser: true});
-        app.listen(PORT, () => {console.log(`Server is start on PORT: ${PORT}`)});
-    } catch (e) {
-        console.log(e)
-    }
+const start = () => {
+        const url = `mongodb+srv://viktorkan:DyXco7h9UD1iFFee@cluster0-8lrxq.mongodb.net/shop`;
+        mongoose.connect(url, {
+            useNewUrlParser: true,
+            useUnifiedTopology: true
+        }).then(() => {
+            app.listen(PORT, () => {console.log(`Server is start on PORT: ${PORT}`)});
+        });
 };
 
 
