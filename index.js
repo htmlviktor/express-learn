@@ -2,22 +2,27 @@ const express = require('express');
 const path = require('path');
 const mongoose = require('mongoose');
 const exphbs = require('express-handlebars');
+const Handlebars = require('handlebars');
 
 const homeRoutes = require('./routes/home');
 const addRoutes = require('./routes/add');
 const coursesRoutes = require('./routes/courses');
 const cardRoutes = require('./routes/card');
 
+const {allowInsecurePrototypeAccess} = require('@handlebars/allow-prototype-access');
+
 const app = express();
 
-const hbs = exphbs.create({
-    defaultLayout: 'main',
-    extname: 'hbs'
-});
 
-app.engine('hbs', hbs.engine);
+app.engine('hbs', exphbs({
+    handlebars: allowInsecurePrototypeAccess(Handlebars),
+    defaultLayout: 'main',
+    extname: 'hbs',
+}));
+
 app.set('view engine', 'hbs');
 app.set('views', 'views');
+
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({extended: true}));
@@ -34,7 +39,8 @@ const start = () => {
         const url = `mongodb+srv://viktorkan:DyXco7h9UD1iFFee@cluster0-8lrxq.mongodb.net/shop`;
         mongoose.connect(url, {
             useNewUrlParser: true,
-            useUnifiedTopology: true
+            useUnifiedTopology: true,
+            useFindAndModify: false,
         }).then(() => {
             app.listen(PORT, () => {console.log(`Server is start on PORT: ${PORT}`)});
         });
