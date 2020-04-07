@@ -4,7 +4,10 @@ const router = Router();
 
 
 router.get('/', async (req, res) => {
-    const courses = await Course.find();
+    const courses = await Course.find().populate('userId', 'email name');
+
+    console.log(courses);
+
     res.render('courses', {
         title: 'All Courses',
         isCourses: true,

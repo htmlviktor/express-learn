@@ -8,6 +8,7 @@ const homeRoutes = require('./routes/home');
 const addRoutes = require('./routes/add');
 const coursesRoutes = require('./routes/courses');
 const cardRoutes = require('./routes/card');
+const User = require('./models/user');
 
 const {allowInsecurePrototypeAccess} = require('@handlebars/allow-prototype-access');
 
@@ -23,6 +24,15 @@ app.engine('hbs', exphbs({
 app.set('view engine', 'hbs');
 app.set('views', 'views');
 
+app.use( async (req, res, next) => {
+    try {
+        const user = await User.findById('5e8c35cd8d930f18346b6fa6');
+        req.user = user;
+        next();
+    } catch (e) {
+        throw new Error(e)
+    }
+});
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({extended: true}));
@@ -41,7 +51,16 @@ const start = () => {
             useNewUrlParser: true,
             useUnifiedTopology: true,
             useFindAndModify: false,
-        }).then(() => {
+        }).then(async () => {
+            const candidate = await User.findOne();
+            if (!candidate) {
+                const user = new User({
+                    email: 'viktorkan@gmail.com',
+                    name: 'Viktor',
+                    cart: {items: []}
+                })
+                await user.save();
+            }
             app.listen(PORT, () => {console.log(`Server is start on PORT: ${PORT}`)});
         });
 };
