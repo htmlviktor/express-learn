@@ -5,7 +5,6 @@ const router = Router();
 
 router.get('/', async (req, res) => {
     const courses = await Course.find();
-    console.log(courses)
     res.render('courses', {
         title: 'All Courses',
         isCourses: true,
@@ -44,6 +43,15 @@ router.post('/add', async (req, res) => {
 
     await Card.add(course);
     res.redirect('/card');
+});
+
+router.post('/remove', async (req, res) => {
+    try {
+        await Course.deleteOne({_id: req.body.id});
+        res.redirect('/courses');
+    } catch (e) {
+        throw new Error(e);
+    }
 });
 
 
