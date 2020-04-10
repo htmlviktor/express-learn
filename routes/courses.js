@@ -6,7 +6,7 @@ const User = require('../models/user');
 
 router.get('/', async (req, res) => {
     const courses = await Course.find().populate('userId', 'email name');
-
+    
     res.render('courses', {
         title: 'All Courses',
         isCourses: true,

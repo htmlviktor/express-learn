@@ -26,7 +26,9 @@
         </table>
         <p><strong>Price:</strong> <span class="price">{{price}}</span></p>
     </div>
-
+    <form action="/orders" method="POST">
+        <button class="btn" type="submit">Make Order</button>
+    </form>
 {{else}}
     <p>Корзина пуста</p>
 {{/if}}

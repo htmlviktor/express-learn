@@ -17,9 +17,8 @@ router.post('/add', async (req, res) => {
 router.get('/', async (req, res) => {
     const user = await req.user.populate('cart.items.courseId')
     .execPopulate();    
-    console.log(user)
+
     const courses = mapCartItems(user.cart);
-    console.log(courses)
     res.render('card', {
         title: 'Card',
         courses: courses,
