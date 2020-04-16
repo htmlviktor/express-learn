@@ -28,15 +28,6 @@ app.engine('hbs', exphbs({
 app.set('view engine', 'hbs');
 app.set('views', 'views');
 
-app.use( async (req, res, next) => {
-    try {
-        const user = await User.findById('5e8c35cd8d930f18346b6fa6');
-        req.user = user;
-        next();
-    } catch (e) {
-        throw new Error(e)
-    }
-});
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({extended: true}));
@@ -64,16 +55,7 @@ const start = () => {
             useNewUrlParser: true,
             useUnifiedTopology: true,
             useFindAndModify: false,
-        }).then(async () => {
-            const candidate = await User.findOne();
-            if (!candidate) {
-                const user = new User({
-                    email: 'viktorkan@gmail.com',
-                    name: 'Viktor',
-                    cart: {items: []}
-                })
-                await user.save();
-            }
+        }).then(() => {
             app.listen(PORT, () => {console.log(`Server is start on PORT: ${PORT}`)});
         });
 };
